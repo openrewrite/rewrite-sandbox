@@ -1,3 +1,3 @@
-rootProject.name = "rewrite-recipe-starter"
+rootProject.name = "rewrite-sandbox"
 
 enableFeaturePreview("VERSION_ORDERING_V2")

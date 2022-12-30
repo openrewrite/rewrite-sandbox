@@ -30,7 +30,7 @@ java {
 }
 
 // Set as appropriate for your organization
-group = "com.yourorg"
+group = "org.openrewrite.recipe"
 description = "Rewrite recipes."
 
 repositories {
@@ -59,6 +59,7 @@ dependencies {
     implementation(platform("org.openrewrite.recipe:rewrite-recipe-bom:${rewriteBomVersion}"))
 
     implementation("org.openrewrite:rewrite-java")
+    implementation("org.openrewrite:rewrite-maven")
     runtimeOnly("org.openrewrite:rewrite-java-17")
     // Need to have a slf4j binding to see any output enabled from the parser.
     runtimeOnly("ch.qos.logback:logback-classic:1.2.+")
@@ -69,6 +70,7 @@ dependencies {
 
     testImplementation("org.openrewrite:rewrite-test")
     testImplementation("org.assertj:assertj-core:latest.release")
+
 }
 
 tasks.named<Test>("test") {
