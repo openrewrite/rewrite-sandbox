@@ -22,7 +22,7 @@ public class GetToOrElseThrow extends Recipe {
             public J vistMethodInnvocation(J.MethodInvocation method, ExecutionContext executionContext){
                 if (IMMUTABLE_LIST_MATCHER.matches(method)) {
 
-                    
+
                 }
             }
         }
