@@ -8,7 +8,7 @@ import static org.openrewrite.java.Assertions.java;
 
 public class GetToOrElseThrowTest implements RewriteTest {
     @Override
-    public  void defaults(RecipeSpec spec) {
+    public void defaults(RecipeSpec spec) {
         spec.recipe(new GetToOrElseThrow());
     }
 
@@ -18,6 +18,8 @@ public class GetToOrElseThrowTest implements RewriteTest {
           //language=java
             java(
                 """
+                import java.util.Optional;
+                
                 class Test {
                     void test() {
                         var value = Optional.of("").get();
@@ -25,6 +27,8 @@ public class GetToOrElseThrowTest implements RewriteTest {
                 }
                 """,
                 """
+                import java.util.Optional;
+                
                 class Test {
                     void test() {
                         var value = Optional.of("").orElseThrow(NoSuchElementException::new);
