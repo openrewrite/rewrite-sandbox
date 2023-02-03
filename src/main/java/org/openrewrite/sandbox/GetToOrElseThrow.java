@@ -2,13 +2,12 @@ package org.openrewrite.sandbox;
 
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
+import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.JavaVisitor;
 import org.openrewrite.java.MethodMatcher;
+import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.J;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class GetToOrElseThrow extends Recipe {
     public static final MethodMatcher OPTIONAL_GET = new MethodMatcher("java.util.Optional get()");
@@ -21,6 +20,11 @@ public class GetToOrElseThrow extends Recipe {
     @Override
     public String getDescription() {
         return "The latter explicitly handles the empty case.";
+    }
+
+    @Override
+    protected TreeVisitor<?, ExecutionContext> getSingleSourceApplicableTest() {
+        return new UsesMethod<ExecutionContext>(OPTIONAL_GET);
     }
 
     @Override
