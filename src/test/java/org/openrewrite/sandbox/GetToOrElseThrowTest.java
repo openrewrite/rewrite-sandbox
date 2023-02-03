@@ -16,26 +16,27 @@ public class GetToOrElseThrowTest implements RewriteTest {
     void optionalGet() {
         rewriteRun(
           //language=java
-            java(
-                """
-                import java.util.Optional;
-                
-                class Test {
-                    void test() {
-                        var value = Optional.of("").get();
-                    }
-                }
-                """,
-                """
-                import java.util.Optional;
-                
-                class Test {
-                    void test() {
-                        var value = Optional.of("").orElseThrow(NoSuchElementException::new);
-                    }
-                }
-                """
-            )
+          java(
+            """
+              import java.util.Optional;
+                              
+              class Test {
+                  void test() {
+                      String value = Optional.of("").get();
+                  }
+              }
+              """,
+            """
+              import java.util.NoSuchElementException;
+              import java.util.Optional;
+                              
+              class Test {
+                  void test() {
+                      String value = Optional.of("").orElseThrow(NoSuchElementException::new);
+                  }
+              }
+              """
+          )
         );
     }
 }

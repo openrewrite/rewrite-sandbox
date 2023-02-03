@@ -7,28 +7,36 @@ import org.openrewrite.java.JavaVisitor;
 import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.J;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 public class GetToOrElseThrow extends Recipe {
     public static final MethodMatcher OPTIONAL_GET = new MethodMatcher("java.util.Optional get()");
 
     @Override
     public String getDisplayName() {
-        return "Replace Optional.get with Optional::orElseThrow";
+        return "Replace `Optional::get` with `Optional::orElseThrow`";
     }
 
     @Override
     public String getDescription() {
-        return "Replace Optional.get with Optional::orElseThrow.";
+        return "The latter explicitly handles the empty case.";
     }
 
     @Override
     protected JavaVisitor<ExecutionContext> getVisitor() {
         return new JavaVisitor<ExecutionContext>() {
-            final JavaTemplate template = JavaTemplate.builder(this::getCursor, "").build();
-            public J vistMethodInnvocation(J.MethodInvocation method, ExecutionContext ctx){
-                System.out.println("GETTING HERE");
+            final JavaTemplate template = JavaTemplate
+                    .builder(this::getCursor, "#{any(java.util.Optional)}.orElseThrow(NoSuchElementException::new)")
+                    .imports("java.util.NoSuchElementException")
+                    .build();
+
+            public J visitMethodInvocation(J.MethodInvocation method, ExecutionContext ctx){
                 if (OPTIONAL_GET.matches(method)) {
-                    // see what both .replaceMethod() and .replace() do
-                    return method.withTemplate(template, method.getCoordinates().replaceMethod(), method.getSelect());
+                    maybeAddImport("java.util.NoSuchElementException");
+                    return method.withTemplate(template,
+                            method.getCoordinates().replace(),
+                            method.getSelect());
                 }
                 return super.visitMethodInvocation(method, ctx);
             }
