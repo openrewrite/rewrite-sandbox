@@ -25,7 +25,7 @@ import org.openrewrite.Recipe;
 public class TypeReport extends DataTable<TypeReport.Row> {
 
     public TypeReport(Recipe recipe) {
-        super(recipe,
+        super(recipe, Row.class, TypeReport.class.getName(),
                 "Java type report",
                 "Contains a report about Java type weight.");
     }
