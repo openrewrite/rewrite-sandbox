@@ -50,7 +50,7 @@ configurations.all {
 }
 
 //The bom version can also be set to a specific version or latest.release.
-val rewriteBomVersion = "latest.integration"
+val rewriteBomVersion = "latest.release"
 
 dependencies {
     compileOnly("org.projectlombok:lombok:latest.release")
