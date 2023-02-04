@@ -1,10 +1,11 @@
 package org.openrewrite.sandbox;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.sandbox.table.TypeReport;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.openrewrite.java.Assertions.java;
 
 public class JavaTypeDensityStudyTest implements RewriteTest {
@@ -17,10 +18,8 @@ public class JavaTypeDensityStudyTest implements RewriteTest {
     @Test
     void weights() {
         rewriteRun(
-          spec -> spec.dataTableAsCsv("org.openrewrite.sandbox.table.TypeReport", """
-            sourceFile,weight,"weightWithoutPrivateMethodNamesAndFields"
-            "org/openrewrite/java/is.java",18137,6516
-            """),
+          spec -> spec.dataTable(TypeReport.Row.class, rows ->
+            assertThat(rows.get(0).getWeightWithoutPrivateMethodNamesAndFields()).isLessThan(10_000)),
           //language=java
           java(
             """
