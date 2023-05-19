@@ -33,7 +33,7 @@ public class TypeReport extends DataTable<TypeReport.Row> {
     @Value
     public static class Row {
         @Column(displayName = "Source file",
-                description = "A sourc file path.")
+                description = "A source file path.")
         String sourceFile;
 
         @Column(displayName = "Weight",
